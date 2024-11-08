@@ -1,19 +1,17 @@
-import { text, integer, sqliteTable } from 'drizzle-orm/sqlite-core';
+import { text, integer, pgTable, varchar, jsonb } from 'drizzle-orm/pg-core';
 
-export const messages = sqliteTable('messages', {
+export const messages = pgTable('messages', {
   id: integer('id').primaryKey(),
-  content: text('content').notNull(),
-  chatId: text('chatId').notNull(),
-  messageId: text('messageId').notNull(),
-  role: text('type', { enum: ['assistant', 'user'] }),
-  metadata: text('metadata', {
-    mode: 'json',
-  }),
+  content: varchar('content').notNull(),  // Use varchar instead of text
+  chatId: varchar('chatId').notNull(),
+  messageId: varchar('messageId').notNull(),
+  role: varchar('type', { enum: ['assistant', 'user'] }),  // Enum type with varchar
+  metadata: jsonb('metadata'),  // Use jsonb for JSON data
 });
 
-export const chats = sqliteTable('chats', {
-  id: text('id').primaryKey(),
-  title: text('title').notNull(),
-  createdAt: text('createdAt').notNull(),
-  focusMode: text('focusMode').notNull(),
+export const chats = pgTable('chats', {
+  id: varchar('id').primaryKey(),
+  title: varchar('title').notNull(),
+  createdAt: varchar('createdAt').notNull(),
+  focusMode: varchar('focusMode').notNull(),
 });
