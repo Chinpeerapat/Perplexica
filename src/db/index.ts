@@ -1,9 +1,11 @@
-import { drizzle } from 'drizzle-orm/better-sqlite3';
-import Database from 'better-sqlite3';
+import { drizzle } from 'drizzle-orm/postgres';
+import { Pool } from 'pg';
 import * as schema from './schema';
 
-const sqlite = new Database('data/db.sqlite');
-const db = drizzle(sqlite, {
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL, // Provided by Railway
+});
+const db = drizzle(pool, {
   schema: schema,
 });
 
